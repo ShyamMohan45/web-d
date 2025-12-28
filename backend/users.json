@@ -54,5 +54,19 @@
     "email": "shyammohan@gmail.com",
     "mobile": "7894561230",
     "password": "$2b$10$NT/C/jb8T32G2Rw.76qRMOBdl0obd9sR2sCVEtTRRbay7EDLO40R2"
+  },
+  {
+    "id": "1766941474767",
+    "username": "yashraj",
+    "email": "yash@gmail.com",
+    "mobile": "7894561230",
+    "password": "$2b$10$WK4.V4bOfTpvFNRLdhAYOeYK93kMphiWrQ23aKn3DMRwXmfKuslL2"
+  },
+  {
+    "id": "1766941834494",
+    "username": "abhishek",
+    "email": "abhishek@gmail.com",
+    "mobile": "7894561230",
+    "password": "$2b$10$pH1spU5dJE8CgAzgMGKP7ut.GHm740V82nj7zsqSAXDd6mUweC2o2"
   }
 ]
