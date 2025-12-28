@@ -8,6 +8,8 @@ const router = express.Router();
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
+  console.log("[AUTH] /login request body:", req.body);
+
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password required" });
   }
@@ -54,6 +56,7 @@ router.post("/login", (req, res) => {
 // Signup route
 router.post("/signup", async (req, res) => {
   const { username, email, mobile, password } = req.body;
+  console.log("[AUTH] /signup request body:", req.body);
   if (!username || !email || !mobile || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }

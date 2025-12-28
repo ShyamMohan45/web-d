@@ -9,6 +9,7 @@ const SignUp = () => {
     username: "",
     email: "",
     mobile: "",
+
     password: "",
   });
 
@@ -24,11 +25,13 @@ const SignUp = () => {
     }
 
     try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formValues),
-      });
+      const res = await fetch("http://localhost:5000/api/signup", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formValues),
+});
+
+
       let data = {};
       try {
         data = await res.json();

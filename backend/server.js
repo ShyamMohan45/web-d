@@ -6,6 +6,17 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+ 
+// Simple request logger to help debug incoming API calls
+app.use((req, res, next) => {
+  console.log(new Date().toISOString(), req.method, req.originalUrl);
+  next();
+});
+ 
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 app.use("/api", authRoutes);
 
