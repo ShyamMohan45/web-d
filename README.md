@@ -1,73 +1,213 @@
-# Welcome to your Lovable project
+# 🚨 SentinelX  
+### Intelligent Incident Reporting & Admin Response Platform
 
-## Project info
+SentinelX is a modern, scalable, and user-friendly **incident reporting and management system** designed to bridge the gap between **citizens and authorities**.  
+It enables users to report incidents in real time while providing administrators with a powerful dashboard to **verify, track, prioritize, and resolve incidents efficiently**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+The project focuses on **speed, accuracy, transparency, and accessibility**, making it suitable for **smart cities, disaster management systems, campus safety, and community monitoring platforms**.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📌 Table of Contents
 
-**Use Lovable**
+- [Overview](#overview)
+- [Problem Statement](#problem-statement)
+- [Solution Approach](#solution-approach)
+- [Key Features](#key-features)
+  - [User Features](#user-features)
+  - [Admin Features](#admin-features)
+- [System Architecture](#system-architecture)
+- [Location & Map System](#location--map-system)
+- [Admin Authentication Flow](#admin-authentication-flow)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Installation & Setup](#installation--setup)
+- [Usage Guide](#usage-guide)
+- [Security Considerations](#security-considerations)
+- [Performance & UX](#performance--ux)
+- [Future Enhancements](#future-enhancements)
+- [Author](#author)
+- [License](#license)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🧠 Overview
 
-**Use your preferred IDE**
+In many emergency or public-safety scenarios, **delayed reporting, unclear information, and lack of coordination** significantly reduce response effectiveness.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+SentinelX solves this by:
+- Allowing users to submit structured incident reports
+- Providing location accuracy through map-based selection
+- Enabling admins to manage incidents through a centralized dashboard
+- Ensuring only authorized admins can access sensitive controls
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## ❗ Problem Statement
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Traditional incident reporting systems often suffer from:
+- Lack of real-time updates
+- Poor location accuracy
+- No prioritization of incidents
+- Unrestricted access to admin panels
+- Unclear communication between reporters and responders
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## ✅ Solution Approach
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+SentinelX introduces:
+- **Structured incident reporting**
+- **Severity-based prioritization**
+- **Map-driven location selection**
+- **Secure admin-only dashboards**
+- **Status tracking and internal notes**
+- **Clean, animated, and responsive UI**
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## ✨ Key Features
 
-**Use GitHub Codespaces**
+### 👤 User Features
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Report incidents with:
+  - Incident Type (Accident, Fire, Medical, Disaster, Infrastructure)
+  - Severity Level (Low / Medium / High)
+  - Detailed Description
+  - Interactive map-based location selection
+  - Optional photo evidence upload
+- Modern UI with animations
+- Responsive design for all screen sizes
+- Instant feedback using toast notifications
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+### 🛡️ Admin Features
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- Secure admin login (no direct access to dashboard)
+- Incident dashboard with:
+  - Priority indicators
+  - Real-time status updates
+  - Expandable incident details
+- Incident lifecycle management:
+  - Unverified → Verified → Responding → Resolved
+- Internal notes for coordination
+- Sorting controls:
+  - Priority
+  - Time
+  - Votes
+- Live statistics overview:
+  - Active incidents
+  - Responding incidents
+  - Resolved today
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 🏗️ System Architecture
 
-## Can I connect a custom domain to my Lovable project?
+User
+└── Incident Report Form
+├── Incident Details
+├── Severity Selection
+├── Map Location Picker
+└── Image Upload
+↓
+Zustand Store (State Management)
+↓
+Admin Dashboard (Protected Route)
+├── Incident List
+├── Status Updates
+├── Notes
+└── Analytics
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🗺️ Location & Map System
+
+- Built using **OpenStreetMap + Leaflet**
+- No paid APIs required
+- Interactive modal-based map picker
+- Click-to-select location
+- Reverse geocoding using **Nominatim**
+- Automatically extracts:
+  - Latitude
+  - Longitude
+  - Human-readable address
+
+This ensures **accuracy without cost**.
+
+---
+
+## 🔐 Admin Authentication Flow
+
+1. User clicks **Admin**
+2. Redirected to **Admin Login Page**
+3. Credentials verified (client-side demo auth)
+4. Admin session stored in Zustand
+5. Admin dashboard unlocked
+6. Direct URL access blocked if not logged in
+7. Logout clears admin session and redirects back to login
+
+---
+
+## 🧰 Technology Stack
+
+### Frontend
+- **React + TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Lucide Icons**
+
+### State Management
+- **Zustand**
+
+### Maps & Location
+- **Leaflet**
+- **React-Leaflet**
+- **OpenStreetMap**
+- **Nominatim API**
+
+### Utilities
+- date-fns (time formatting)
+- sonner (toast notifications)
+
+---
+
+## 📁 Project Structure
+
+src/
+├── components/
+│ ├── incidents/
+│ │ ├── IncidentCard.tsx
+│ │ └── IncidentForm.tsx
+│ ├── layout/
+│ │ └── Navbar.tsx
+│ ├── ui/
+│ │ ├── LocationPickerModal.tsx
+│ │ └── NavLink.tsx
+│ └── three/
+│ ├── GlobeScene.tsx
+│ └── PulseNetworkScene.tsx
+├── pages/
+│ ├── AdminPage.tsx
+│ ├── DashboardPage.tsx
+│ ├── LandingPage.tsx
+│ ├── ReportPage.tsx
+│ └── signup.tsx
+├── store/
+│ ├── incidentStore.ts
+│ └── adminAuthStore.ts
+├── App.tsx
+├── main.tsx
+└── index.css
+
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/ShyamMohan45/web-d
