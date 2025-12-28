@@ -8,29 +8,35 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
- const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Frontend: Starting login attempt");
 
-  try {
-    const res = await fetch("http://localhost:5000/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      console.log("Frontend: Making request to backend");
+      const res = await fetch("http://localhost:5000/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      console.log("Frontend: Response status:", res.status);
+      const data = await res.json();
+      console.log("Frontend: Response data:", data);
 
-    if (!res.ok) {
-      setError(data.message || "Login failed");
-      return;
+      if (!res.ok) {
+        setError(data.message || "Login failed");
+        return;
+      }
+
+      localStorage.setItem("adminToken", data.token);
+      console.log("Frontend: Token stored, navigating to admin");
+      navigate("/admin");
+    } catch (err) {
+      console.log("Frontend: Error occurred:", err);
+      setError("Server error");
     }
-
-    localStorage.setItem("adminToken", data.token);
-    navigate("/admin");
-  } catch (err) {
-    setError("Server error");
-  }
-};
+  };
 
 
   return (

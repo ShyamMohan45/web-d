@@ -107,6 +107,10 @@ router.post("/login", (req, res) => {
     return res.status(400).json({ message: "Email and password required" });
   }
 
+  if (!db || db.state !== 'connected') {
+    return res.status(500).json({ message: "Database not connected" });
+  }
+
   db.query(
     "SELECT * FROM users WHERE email = ?",
     [email],
@@ -142,6 +146,10 @@ router.post("/signup", async (req, res) => {
 
   if (!username || !email || !mobile || !password) {
     return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (!db || db.state !== 'connected') {
+    return res.status(500).json({ message: "Database not connected" });
   }
 
   db.query(

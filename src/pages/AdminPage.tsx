@@ -11,8 +11,8 @@ import {
   Cell,
 } from 'recharts';
 import { motion } from 'framer-motion';
-import { 
-  Shield, Users, Activity, Clock, 
+import {
+  Shield, Users, Activity, Clock,
   CheckCircle2, AlertTriangle, Loader2, XCircle,
   StickyNote, ChevronDown, ChevronUp
 } from 'lucide-react';
@@ -71,10 +71,9 @@ function AdminIncidentRow({ incident }: { incident: Incident }) {
       {/* Main Row */}
       <div className="p-4 flex items-center gap-4">
         {/* Priority Indicator */}
-        <div className={`w-2 h-12 rounded-full ${
-          incident.severity === 'high' ? 'bg-red-500' :
-          incident.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-        }`} />
+        <div className={`w-2 h-12 rounded-full ${incident.severity === 'high' ? 'bg-red-500' :
+            incident.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+          }`} />
 
         {/* Info */}
         <div className="flex-1 min-w-0">
@@ -110,11 +109,10 @@ function AdminIncidentRow({ incident }: { incident: Incident }) {
               key={status.value}
               onClick={() => handleStatusChange(status.value)}
               disabled={isUpdating}
-              className={`p-2 rounded-lg transition-all ${
-                incident.status === status.value
+              className={`p-2 rounded-lg transition-all ${incident.status === status.value
                   ? `${status.color} text-white shadow-lg`
                   : 'bg-secondary text-muted-foreground hover:bg-secondary/80'
-              }`}
+                }`}
               title={status.label}
             >
               {statusIcon[status.value]}
@@ -184,36 +182,26 @@ function AdminIncidentRow({ incident }: { incident: Incident }) {
 
 export default function AdminPage() {
   const incidents = useIncidentStore((state) => state.incidents);
-  
-const incidentsByStatusData = [
-  { name: 'Unverified', value: incidents.filter(i => i.status === 'unverified').length, color: '#ef4444' },
-  { name: 'Responding', value: incidents.filter(i => i.status === 'responding').length, color: '#f59e0b' },
-  { name: 'Resolved', value: incidents.filter(i => i.status === 'resolved').length, color: '#22c55e' },
-];
+
+  const incidentsByStatusData = [
+    { name: 'Unverified', value: incidents.filter(i => i.status === 'unverified').length, color: '#ef4444' },
+    { name: 'Responding', value: incidents.filter(i => i.status === 'responding').length, color: '#f59e0b' },
+    { name: 'Resolved', value: incidents.filter(i => i.status === 'resolved').length, color: '#22c55e' },
+  ];
 
 
-const incidentsByTypeData = [
-  'Fire',
-  'Medical',
-  'Accident',
-  'Disaster',
-  'Infrastructure',
-].map((type) => ({
-  type,
-  count: incidents.filter(
-    (incident) => incident.type.toLowerCase() === type.toLowerCase()
-  ).length,
-}));
-
-
-{/* Incidents by Status */}
-<div className="mt-8 rounded-xl border border-border bg-background p-6">
-  <h2 className="text-lg font-semibold">Incidents by Status</h2>
-  <p className="mb-4 text-sm text-muted-foreground">
-    Current distribution of incident resolution states
-  </p>
-
-</div>
+  const incidentsByTypeData = [
+    'Fire',
+    'Medical',
+    'Accident',
+    'Disaster',
+    'Infrastructure',
+  ].map((type) => ({
+    type,
+    count: incidents.filter(
+      (incident) => incident.type.toLowerCase() === type.toLowerCase()
+    ).length,
+  }));
 
   const [sortBy, setSortBy] = useState<'priority' | 'time' | 'votes'>('priority');
 
@@ -232,8 +220,8 @@ const incidentsByTypeData = [
   // Stats
   const activeCount = incidents.filter((i) => i.status !== 'resolved').length;
   const respondingCount = incidents.filter((i) => i.status === 'responding').length;
-  const resolvedToday = incidents.filter((i) => 
-    i.status === 'resolved' && 
+  const resolvedToday = incidents.filter((i) =>
+    i.status === 'resolved' &&
     new Date(i.updatedAt).toDateString() === new Date().toDateString()
   ).length;
 
@@ -300,25 +288,52 @@ const incidentsByTypeData = [
             </div>
           </motion.div>
 
+          {/* Admin Analytics */}
+          <div className="mt-8 rounded-xl border border-border bg-background p-6">
+            <h2 className="text-lg font-semibold">Incidents by Status</h2>
+            <p className="mb-4 text-sm text-muted-foreground">
+              Current distribution of incident resolution states
+            </p>
+            <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={incidentsByStatusData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {incidentsByStatusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
 
-{/* Admin Analytics */}
-<div className="mt-8 rounded-xl border border-border bg-background p-6">
-  <h2 className="text-lg font-semibold">Incidents by Type</h2>
-<p className="mb-4 text-sm text-muted-foreground">
-  Distribution of reported incidents across categories
-</p>
+          <div className="mt-8 rounded-xl border border-border bg-background p-6">
+            <h2 className="text-lg font-semibold">Incidents by Type</h2>
+            <p className="mb-4 text-sm text-muted-foreground">
+              Distribution of reported incidents across categories
+            </p>
+            <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={incidentsByTypeData}>
+                  <XAxis dataKey="type" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#38bdf8" radius={[6, 6, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
 
-  <div className="h-64 w-full">
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={incidentsByTypeData}>
-        <XAxis dataKey="type" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="count" fill="#38bdf8" radius={[6, 6, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
-  </div>
-</div>
           {/* Sort Controls */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
