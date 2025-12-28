@@ -15,7 +15,7 @@ const SignUp = () => {
   const handleChange = (e) =>
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (Object.values(formValues).some((v) => !v)) {
@@ -23,8 +23,24 @@ const SignUp = () => {
       return;
     }
 
-    toast.success("Account created 🚀");
-    navigate("/login");
+    try {
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValues),
+      });
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Server error or empty response");
+      }
+      if (!res.ok) throw new Error(data.message || "Signup failed");
+      toast.success("Account created 🚀");
+      navigate("/login");
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
